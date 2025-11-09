@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Digital de Livros</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-pink-50 min-h-screen">
+
+    <div id="status-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-2xl max-w-sm w-full text-center">
+            <h4 id="modal-title" class="text-xl font-bold text-gray-900 mb-2">Título</h4>
+            <p id="modal-message" class="text-gray-700 mb-4">Mensagem</p>
+            <button onclick="closeModal()" class="bg-primary hover:bg-pink-700 text-white font-semibold py-2 px-4 rounded transition-colors">Fechar</button>
+        </div>
+    </div>
+    
+    <main class="container mx-auto px-4 md:p-8">
+        <h1 class="text-3xl font-bold text-center text-black mb-4">Catálogo Digital</h1>
+        <p class="text-center text-sm text-gray-700 mb-6">Gerencie e Exiba seus Livros</p>
+
+        <div class="flex justify-center space-x-4 mb-6">
+            <button id="tab-manager" class="px-6 py-2 text-sm font-semibold rounded-full bg-gray-600 text-gray-200 hover:bg-gray-700 transition-colors">Gerenciador</button>
+            
+            <button id="tab-showcase" class="px-6 py-2 text-sm font-semibold rounded-full bg-primary text-white transition-colors">Vitrine (Estante)</button>
+        </div>
+
+        <section id="showcase-view" class="p-4 rounded-lg bg-gray-800 shadow-xl">
+            
+            <div class="mb-6">
+                <input type="text" id="search-input" placeholder="Buscar por título, gênero ou tag..." 
+                       class="w-full p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary shadow-inner">
+            </div>
+
+            <a id="contact-link-display" href="#" target="_blank" 
+               class="hidden block w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-md mb-6 transition-colors">
+                Fale Conosco no WhatsApp
+            </a>
+
+            <div id="bookshelf-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                </div>
+
+            <div id="empty-showcase" class="text-center p-12 text-gray-400">
+                <p class="text-lg">Nenhum livro encontrado. Tente pesquisar outro termo ou vá para o Gerenciador (se você for o administrador).</p>
+            </div>
+            
+        </section>
+
+
+        <section id="manager-view" class="p-4 rounded-lg bg-gray-900 shadow-xl hidden">
+            
+            <h2 class="text-2xl font-bold text-white mb-6">Adicionar/Editar Livro</h2>
+            
+            <form id="book-form">
+                
+                <div class="mb-4">
+                    <label for="title" class="block text-sm font-medium text-gray-300">Título do Livro</label>
+                    <input type="text" id="title" name="title" required 
+                           class="mt-1 block w-full p-2.5 rounded-md bg-gray-800 border border-gray-700 text-white focus:ring-primary focus:border-primary">
+                </div>
+                
+                <div class="mb-4">
+                    <label for="price" class="block text-sm font-medium text-gray-300">Preço (R$)</label>
+                    <input type="number" step="0.01" id="price" name="price" required 
+                           placeholder="Ex: 4.99"
+                           class="mt-1 block w-full p-2.5 rounded-md bg-gray-800 border border-gray-700 text-white focus:ring-primary focus:border-primary">
+                </div>
+
+                <div class="mb-4">
+                    <label for="rating" class="block text-sm font-medium text-gray-300">Avaliação (0 a 5)</label>
+                    <input type="number" step="0.1" id="rating" name="rating" placeholder="Ex: 4.5"
+                           class="mt-1 block w-full p-2.5 rounded-md bg-gray-800 border border-gray-700 text-white focus:ring-primary focus:border-primary">
+                </div>
+                
+                <div class="mb-4">
+                    <label for="genre" class="block text-sm font-medium text-gray-300">Gênero Principal</label>
+                    <select id="genre" name="genre" required 
+                            class="mt-1 block w-full p-2.5 rounded-md bg-gray-800 border border-gray-700 text-white focus:ring-primary focus:border-primary">
+                        <option value="">Selecione um Gênero</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Fantasia">Fantasia</option>
+                        <option value="Ficção Científica">Ficção Científica</option>
+                        <option value="Suspense">Suspense</option>
+                        <option value="Thriller">Thriller</option>
+                        <option value="Distopia">Distopia</option>
+                        <option value="Poesia">Poesia</option>
+                        <option value="Não-Ficção">Não-Ficção</option>
+                        <option value="Ficção Histórica">Ficção Histórica</option>
+                        <option value="Ficção Policial">Ficção Policial</option>
+                        <option value="Terror">Terror</option>
+                    </select>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="tags" class="block text-sm font-medium text-gray-300">Tags (Múltipla Seleção)</label>
+                    <select id="tags" name="tags" multiple
+                            class="mt-1 block w-full p-2.5 rounded-md bg-gray-800 border border-gray-700 text-white focus:ring-primary focus:border-primary h-32">
+                        <option value="Hot">Hot</option>
+                        <option value="BDSM">BDSM</option>
+                        <option value="Harém reverso">Harém reverso</option>
+                        <option value="Professor/Aluno">Professor/Aluno</option>
+                        <option value="Amor entre inimigos">Amor entre inimigos</option>
+                        <option value="Amor proibido">Amor proibido</option>
+                        <option value="Stalker">Stalker</option>
+                        <option value="Friends to Lovers">Friends to Lovers</option>
+                        <option value="Comédia Romântica">Comédia Romântica</option>
+                        <option value="Jovem Adulto">Jovem Adulto</option>
+                        <option value="Contemporâneo">Contemporâneo</option>
+                        <option value="Máfia">Máfia</option>
+                        <option value="Paranormal">Paranormal</option>
+                        <option value="Aventura">Aventura</option>
+                        <option value="Viagem no Tempo">Viagem no Tempo</option>
+                        <option value="Mistério">Mistério</option>
+                        <option value="Dragões">Dragões</option>
+                        <option value="Vampiros">Vampiros</option>
+                        <option value="Científico">Científico</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label for="series-name" class="block text-sm font-medium text-gray-300">Nome da Série (Opcional)</label>
+                    <input type="text" id="series-name" name="series-name" placeholder="Ex: O Empyriano"
+                           class="mt-1 block w-full p-2.5 rounded-md bg-gray-800 border border-gray-700 text-white focus:ring-primary focus:border-primary">
+                </div>
+
+                <div class="mb-6">
+                    <label for="series-order" class="block text-sm font-medium text-gray-300">Ordem na Série (Opcional)</label>
+                    <input type="number" id="series-order" name="series-order" placeholder="Ex: 1"
+                           class="mt-1 block w-full p-2.5 rounded-md bg-gray-800 border border-gray-700 text-white focus:ring-primary focus:border-primary">
+                </div>
+
+                <h3 class="text-xl font-semibold text-white mb-4 border-t border-gray-700 pt-4">Links e Capas</h3>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-300">Capa do Livro (Prioridade)</label>
+                    
+                    <div class="flex items-center space-x-3 mt-1">
+                        <label for="cover-upload" class="cursor-pointer bg-gray-600 hover:bg-gray-700 text-white text-xs py-1.5 px-3 rounded-md transition-colors">
+                            Upload Capa Local (Max 500KB)
+                        </label>
+                        <input type="file" id="cover-upload" accept="image/*" class="hidden">
+                        <span id="cover-filename" class="text-xs text-gray-400">Nenhum arquivo escolhido</span>
+                        <button type="button" id="clear-cover-local" onclick="clearLocalCover()" class="hidden text-red-500 hover:text-red-600 text-xs">Limpar</button>
+                    </div>
+                    <p id="cover-local-status" class="text-xs text-green-500 mt-1"></p>
+                    
+                    <div id="cover-preview-img" class="mt-3 max-w-[150px] hidden"></div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="cover-link" class="block text-sm font-medium text-gray-300">Link da Capa (Fallback)</label>
+                    <input type="url" id="cover-link" name="cover-link" placeholder="https://exemplo.com/capa.jpg"
+                           class="mt-1 block w-full p-2.5 rounded-md bg-gray-800 border border-gray-700 text-white focus:ring-primary focus:border-primary">
+                </div>
+                
+                <div class="mb-4">
+                    <label for="sample-link" class="block text-sm font-medium text-gray-300">Link da Amostra (Opcional)</label>
+                    <input type="url" id="sample-link" name="sample-link" placeholder="https://exemplo.com/amostra.pdf"
+                           class="mt-1 block w-full p-2.5 rounded-md bg-gray-800 border border-gray-700 text-white focus:ring-primary focus:border-primary">
+                </div>
+                
+                <div class="mb-6">
+                    <label for="pdf-link" class="block text-sm font-medium text-gray-300">Link para PDF Completo (Opcional)</label>
+                    <input type="url" id="pdf-link" name="pdf-link" placeholder="https://exemplo.com/livrocompleto.pdf"
+                           class="mt-1 block w-full p-2.5 rounded-md bg-gray-800 border border-gray-700 text-white focus:ring-primary focus:border-primary">
+                </div>
+
+                <div class="flex space-x-3">
+                    <button type="submit" id="submit-button" 
+                            class="flex-grow bg-primary hover:bg-pink-700 text-white font-bold py-3 rounded-md transition-colors">
+                        Salvar Livro
+                    </button>
+                    <button type="button" id="cancel-edit-button" onclick="resetForm()" 
+                            class="hidden bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-md transition-colors">
+                        Cancelar Edição
+                    </button>
+                </div>
+            </form>
+
+            <h2 class="text-2xl font-bold text-white mt-8 mb-6 border-t border-gray-700 pt-6">Configurações de Contato</h2>
+
+            <div class="bg-gray-800 p-4 rounded-lg shadow-inner mb-6">
+                <label for="contact-link-input" class="block text-sm font-medium text-gray-300 mb-2">
+                    Link do WhatsApp / Contato (Será usado como fallback)
+                </label>
+                <input type="url" id="contact-link-input" placeholder="https://wa.me/5511999999999"
+                       class="mt-1 block w-full p-2.5 rounded-md bg-gray-700 border border-gray-600 text-white focus:ring-green-500 focus:border-green-500">
+                <p class="text-xs text-gray-400 mt-1">Certifique-se de que o link comece com http:// ou https:// (Ex: https://wa.me/...)</p>
+                <button id="contact-link-button" class="mt-4 w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 rounded-md transition-colors">
+                    Salvar Link de Contato
+                </button>
+            </div>
+
+            <h2 class="text-2xl font-bold text-white mt-8 mb-6 border-t border-gray-700 pt-6">Lista de Livros Cadastrados</h2>
+            
+            <div id="manager-books-list" class="space-y-4">
+                </div>
+
+            <div id="empty-manager" class="text-center p-12 text-gray-400">
+                <p class="text-lg">Você ainda não tem livros cadastrados.</p>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
