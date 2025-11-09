@@ -1,0 +1,79 @@
+/*
+ * style.css
+ * Definições de Estilo Adicionais para o Catálogo de Livros
+ *
+ * NOTA: O fundo rosa pastel e o rosa forte serão definidos aqui para as classes
+ * .bg-primary e .text-primary, pois o Tailwind CSS (CDN) não permite cores customizadas
+ * diretamente no arquivo HTML.
+ */
+
+:root {
+    --color-primary: 236 72 153; /* ROSA PRINCIPAL: rgb(236, 72, 153) */
+}
+
+/* Define a cor principal para classes Tailwind específicas */
+.bg-primary {
+    background-color: rgb(var(--color-primary));
+}
+
+.hover\:bg-pink-700:hover {
+    background-color: rgb(200, 50, 120); /* Um tom mais escuro para o hover */
+}
+
+.text-primary {
+    color: rgb(var(--color-primary));
+}
+
+.focus\:ring-primary:focus {
+    --tw-ring-color: rgb(var(--color-primary));
+}
+
+/* Estilos para o Card de Livro na Vitrine */
+.book-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.book-cover {
+    width: 100%;
+    height: auto; /* Mantém a proporção da capa */
+    aspect-ratio: 2 / 3; /* Proporção típica de capa de livro (2 de largura para 3 de altura) */
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    margin-bottom: 0.75rem;
+}
+
+/* Estilos para o Card de Livro no Gerenciador */
+.manager-card {
+    background-color: #2D3748; /* Tom de cinza escuro para diferenciar */
+    border-left: 5px solid rgb(var(--color-primary)); /* Borda rosa lateral */
+}
+
+/* Estilo para ícones de estrelas de avaliação */
+.rating-star {
+    color: gold;
+}
+
+/* Estilo para o span de tags */
+.tag-span {
+    display: inline-block;
+    background-color: #4A5568; /* Cinza mais claro para tags */
+    color: #CBD5E0; /* Texto claro */
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px; /* Pill shape */
+    font-size: 0.75rem; /* texto pequeno */
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+}
+
+/* Estilos para a seleção múltipla de tags no formulário */
+#tags {
+    /* Altura maior para mostrar mais opções */
+    height: 200px; 
+}
